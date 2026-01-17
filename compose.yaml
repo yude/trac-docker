@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/yude/trac-docker:latest
+    ports:
+      - "28000:8000"
+    environment:
+      # Single project:
+      # TRAC_MODE: single
+      # TRAC_ENV: /var/trac/envs/trac
+      # TRAC_PROJECT_NAME: trac
+      # TRAC_DB: sqlite:db/trac.db
+      # TRAC_PORT: "8000"
+
+      # Multiple projects:
+      TRAC_MODE: parent
+      TRAC_ENV_PARENT: /var/trac/envs
+      TRAC_PROJECTS: "noc,ticket"
+      TRAC_DB_TEMPLATE: "sqlite:db/trac.db"
+    volumes:  
+      - ./data:/var/trac
+    restart: always

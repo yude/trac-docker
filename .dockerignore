@@ -1,0 +1,19 @@
+# Build context から不要なものを除外
+.git/
+.github/
+
+# ローカル永続データ（Trac 環境）
+data/
+
+# Kubernetes manifests
+k8s/
+
+# エディタ/OS
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]

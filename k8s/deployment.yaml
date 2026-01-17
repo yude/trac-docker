@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trac
+  labels:
+    app: trac
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trac
+  template:
+    metadata:
+      labels:
+        app: trac
+    spec:
+      containers:
+        - name: trac
+          image: ghcr.io/yude/trac-docker:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: TRAC_MODE
+              value: parent
+            - name: TRAC_ENV_PARENT
+              value: /var/trac/envs
+            - name: TRAC_PROJECTS
+              value: "noc,ticket"
+            - name: TRAC_DB_TEMPLATE
+              value: "sqlite:db/trac.db"
+          volumeMounts:
+            - name: trac
+              mountPath: /var/trac
+      volumes:
+        - name: trac
+          persistentVolumeClaim:
+            claimName: trac
