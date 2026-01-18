@@ -19,6 +19,15 @@ services:
       TRAC_ENV_PARENT: /var/trac/envs
       TRAC_PROJECTS: "noc,ticket"
       TRAC_DB_TEMPLATE: "sqlite:db/trac.db"
+
+      # Authentication:
+      # Trac は外部認証が無いとログインできないため、basic 認証を使います。
+      # TRAC_ADMIN_PASSWORD 未設定の場合、起動時に自動生成され /var/trac/auth/admin.password に保存されます。
+      TRAC_AUTH_TYPE: ${TRAC_AUTH_TYPE:-basic}
+      TRAC_AUTH_REALM: ${TRAC_AUTH_REALM:-Trac}
+      TRAC_AUTH_FILE: ${TRAC_AUTH_FILE:-/var/trac/auth/htpasswd}
+      TRAC_ADMIN_USER: ${TRAC_ADMIN_USER:-admin}
+      TRAC_ADMIN_PASSWORD: ${TRAC_ADMIN_PASSWORD:-}
     volumes:  
       - ./data:/var/trac
     restart: always
